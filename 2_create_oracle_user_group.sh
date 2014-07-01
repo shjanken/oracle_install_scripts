@@ -6,15 +6,15 @@ ORACLE='oracle'
 ORACLE_BASE='/u01/app'
 ORACLE_HOME='/u01/app/product/11g'
 
-if [ ! groupadd $OINSTALL 2> /dev/null ]
-then
-  echo "$OINSTALL group already exists!"
-fi
+#if [ ! groupadd $OINSTALL 2> /dev/null ] then
+#  echo "$OINSTALL group already exists!"
+#fi
+#
+#if [ ! groupadd $DBA 2> /dev/null ]
+#then
+#  echo "$DBA group already exists!"
+#fi
 
-if [ ! groupadd $DBA 2> /dev/null ]
-then
-  echo "$DBA group already exists!"
-fi
 
 #if [ useradd -g $OINSTALL -G $DBA $ORACLE 2> /dev/null ]
 #then
@@ -29,6 +29,18 @@ fi
 #  exit 2
 #fi
 
+groupadd $OINSTALL &> /dev/null
+if [ ! $? -eq 0 ]
+then
+  echo $OINSTALL group has exists
+fi
+
+groupadd $DBA &> /dev/null
+if [ ! $? -eq 0 ] 
+then
+  echo $DBA group has exists
+fi
+
 id $ORACLE 2>&1>/dev/null
 ID_RESULT=$?
 
@@ -38,7 +50,7 @@ then
   echo "oracle" | passwd oracle --stdin
   echo user already exists .change the group
 else
-  useradd -g $OINSTALL -G $DBA $ORACL
+  useradd -g $OINSTALL -G $DBA $ORACLE
   echo "oracle" | passwd oracle --stdin
   echo add user success
 fi
