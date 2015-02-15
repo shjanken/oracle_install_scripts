@@ -16,4 +16,4 @@ make
 sysstat
 unixODBC
 unixODBC-devel
-shjanken
+janken
